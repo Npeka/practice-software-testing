@@ -8,18 +8,18 @@
     },
     "item": [
         {
-            "name": "Login API Data-driven",
+            "name": "Login Success or Fail (Data-driven)",
             "event": [
                 {
                     "listen": "test",
                     "script": {
                         "exec": [
                             "// Kiểm tra status code đúng với expected_status từ CSV",
-                            "pm.test(\"Status code is as expected\", function () {",
+                            "pm.test(\"Status code matches expected\", function () {",
                             "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
                             "});",
                             "",
-                            "// Nếu đăng nhập thành công (200), kiểm tra các trường bắt buộc",
+                            "// Nếu thành công (200), kiểm tra các trường bắt buộc",
                             "if (pm.response.code === 200) {",
                             "    const responseData = pm.response.json();",
                             "    pm.test(\"Response has required fields\", function () {",
@@ -36,6 +36,7 @@
                             "        pm.expect(responseData.expires_in).to.exist.and.to.be.a('number').and.to.be.above(0);",
                             "    });",
                             "} else if (pm.response.code === 401) {",
+                            "    // Nếu thất bại, kiểm tra có trường error",
                             "    const responseData = pm.response.json();",
                             "    pm.test(\"Response contains the required error field\", function () {",
                             "        pm.expect(responseData).to.be.an('object').and.to.have.property('error');",
