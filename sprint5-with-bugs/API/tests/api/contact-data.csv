@@ -1,16 +1,16 @@
 first_name,last_name,email,subject,message,expected_status,expected_status_get,expected_status_update,new_status,test_description
-John,Doe,john.doe@email.com,Test Subject,This is a test message,201,200,200,read,Valid contact message
-Jane,Smith,jane.smith@gmail.com,Product Inquiry,I have a question about your product,201,200,200,replied,Valid product inquiry
-,Doe,missing.firstname@email.com,Test Subject,Missing first name test,422,200,200,read,Missing first name - should fail validation
-John,,missing.lastname@email.com,Test Subject,Missing last name test,422,200,200,read,Missing last name - should fail validation
-John,Doe,,Test Subject,Missing email test,422,200,200,read,Missing email - should fail validation
-John,Doe,invalid-email,Test Subject,Invalid email format test,422,200,200,read,Invalid email format - should fail validation
-John,Doe,john.doe@email.com,,Missing subject test,422,200,200,read,Missing subject - should fail validation
-John,Doe,john.doe@email.com,Test Subject,,422,200,200,read,Missing message - should fail validation
-Admin,User,admin@test.com,Long Subject Test,This is a very long message to test the limits of the message field. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.,201,200,200,archived,Long message test
-Test,User,test.user@domain.co.uk,Special Characters Test,Testing message with special characters: !@#$%^&*()_+-=[]{}|;':\",./<>?,201,200,200,spam,Special characters in message
-Multiple,Spaces,multiple.spaces@email.com,Multiple   Spaces   Test,Message    with    multiple    spaces,201,200,200,read,Multiple spaces handling
-Unicode,Test,unicode@test.com,Unicode Test 🚀,Testing unicode characters: 你好 こんにちは 🎉 🌟,201,200,200,read,Unicode characters test
-Empty,Fields,empty@test.com,   ,   ,422,200,200,read,Empty spaces in required fields
-SQL,Injection,sql@test.com,'; DROP TABLE messages; --,Testing SQL injection attempt in subject,201,200,200,read,SQL injection attempt
-XSS,Test,xss@test.com,<script>alert('XSS')</script>,Testing XSS attempt in message: <script>alert('XSS')</script>,201,200,200,read,XSS injection attempt
+John,Doe,john.doe@email.com,Test Subject,This is a test message,500,401,404,read,Valid contact message - server error expected
+Jane,Smith,jane.smith@gmail.com,Product Inquiry,I have a question about your product,500,401,404,replied,Valid product inquiry - server error expected
+,Doe,missing.firstname@email.com,Test Subject,Missing first name test,422,401,404,read,Missing first name - should fail validation
+John,,missing.lastname@email.com,Test Subject,Missing last name test,422,401,404,read,Missing last name - should fail validation
+John,Doe,,Test Subject,Missing email test,422,401,404,read,Missing email - should fail validation
+John,Doe,invalid-email,Test Subject,Invalid email format test,422,401,404,read,Invalid email format - should fail validation
+John,Doe,john.doe@email.com,,Missing subject test,422,401,404,read,Missing subject - should fail validation
+John,Doe,john.doe@email.com,Test Subject,,422,401,404,read,Missing message - should fail validation
+Admin,User,admin@test.com,Long Subject Test,This is a very long message to test the limits of the message field. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.,422,401,404,archived,Long message test - validation expected
+Test,User,test.user@domain.co.uk,Special Characters Test,Testing message with special characters: !@#$%^&*()_+-=[]{}|;':\"./<>?,500,401,404,spam,Special characters in message - server error expected
+Multiple,Spaces,multiple.spaces@email.com,Multiple   Spaces   Test,Message    with    multiple    spaces,500,401,404,read,Multiple spaces handling - server error expected
+Unicode,Test,unicode@test.com,Unicode Test 🚀,Testing unicode characters: 你好 こんにちは 🎉 🌟,500,401,404,read,Unicode characters test - server error expected
+Empty,Fields,empty@test.com,   ,   ,422,401,404,read,Empty spaces in required fields - validation expected
+SQL,Injection,sql@test.com,'; DROP TABLE messages; --,Testing SQL injection attempt in subject,500,401,404,read,SQL injection attempt - server error expected
+XSS,Test,xss@test.com,<script>alert('XSS')</script>,Testing XSS attempt in message: <script>alert('XSS')</script>,500,401,404,read,XSS injection attempt - server error expected

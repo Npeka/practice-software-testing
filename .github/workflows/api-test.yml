@@ -62,15 +62,16 @@ jobs:
           node-version: "18"
       - run: npm install -g newman newman-reporter-htmlextra
 
-      # Bước 7: Chạy kiểm thử Newman cho Contact API
+      # Bước 7: Chạy kiểm thử Newman cho Contact API (Simple version for debugging)
       - name: Run Contact API Newman Tests 🚀
         run: |
-          newman run sprint5-with-bugs/API/tests/api/contact-collection.json \
+          newman run sprint5-with-bugs/API/tests/api/simple-contact-collection.json \
             -e sprint5-with-bugs/API/tests/api/contact-environment.json \
-            --iteration-data sprint5-with-bugs/API/tests/api/contact-data.csv \
+            --iteration-data sprint5-with-bugs/API/tests/api/simple-contact-data.csv \
             --reporters cli,junit,htmlextra \
             --reporter-junit-export newman-contact-report.xml \
-            --reporter-htmlextra-export newman-contact-report.html
+            --reporter-htmlextra-export newman-contact-report.html \
+            --verbose
 
       # Bước 8: Upload báo cáo Contact API (luôn chạy)
       - name: Upload Contact API Test Report 📊
