@@ -1,0 +1,28 @@
+{
+    "id": "contact-api-test-environment",
+    "name": "Contact API Test Environment",
+    "values": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8091",
+            "enabled": true
+        },
+        {
+            "key": "api_timeout",
+            "value": "10000",
+            "enabled": true
+        },
+        {
+            "key": "auth_token",
+            "value": "",
+            "enabled": true,
+            "description": "Admin token for authenticated requests - update this with actual token"
+        },
+        {
+            "key": "message_id",
+            "value": "",
+            "enabled": true,
+            "description": "Message ID from created contact message - auto populated during tests"
+        }
+    ]
+}

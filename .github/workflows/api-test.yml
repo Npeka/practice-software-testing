@@ -1,5 +1,5 @@
 # Tên của quy trình CI/CD
-name: Laravel CI/CD with Newman Tests
+name: Laravel Contact API Tests with Newman
 
 on:
   push:
@@ -62,25 +62,25 @@ jobs:
           node-version: "18"
       - run: npm install -g newman newman-reporter-htmlextra
 
-      # Bước 7: Chạy kiểm thử Newman
-      - name: Run Newman Tests 🚀
+      # Bước 7: Chạy kiểm thử Newman cho Contact API
+      - name: Run Contact API Newman Tests 🚀
         run: |
-          newman run sprint5-with-bugs/API/tests/api/collection.json \
-            -e sprint5-with-bugs/API/tests/api/environment.json \
-            --iteration-data sprint5-with-bugs/API/tests/api/user-accounts.csv \
+          newman run sprint5-with-bugs/API/tests/api/contact-collection.json \
+            -e sprint5-with-bugs/API/tests/api/contact-environment.json \
+            --iteration-data sprint5-with-bugs/API/tests/api/contact-data.csv \
             --reporters cli,junit,htmlextra \
-            --reporter-junit-export newman-report.xml \
-            --reporter-htmlextra-export newman-report.html
+            --reporter-junit-export newman-contact-report.xml \
+            --reporter-htmlextra-export newman-contact-report.html
 
-      # Bước 8: Upload báo cáo (luôn chạy)
-      - name: Upload Test Report 📊
+      # Bước 8: Upload báo cáo Contact API (luôn chạy)
+      - name: Upload Contact API Test Report 📊
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: newman-report
+          name: newman-contact-report
           path: |
-            newman-report.html
-            newman-report.xml
+            newman-contact-report.html
+            newman-contact-report.xml
 
       # Bước 9: Dọn dẹp (luôn chạy)
       - name: Cleanup 🧹

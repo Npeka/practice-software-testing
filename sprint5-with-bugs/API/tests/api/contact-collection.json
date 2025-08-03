@@ -1,0 +1,238 @@
+{
+    "info": {
+        "_postman_id": "c4d8f6a2-9b1e-4c7f-8e3a-5f2d1a8b6c9e",
+        "name": "Contact API Tests",
+        "description": "Test API contact với các scenarios khác nhau (data-driven)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "38685069"
+    },
+    "item": [
+        {
+            "name": "Send Contact Message (Data-driven)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// Kiểm tra status code đúng với expected_status từ Excel",
+                            "pm.test(\"Status code matches expected\", function () {",
+                            "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status\")));",
+                            "});",
+                            "",
+                            "// Nếu thành công (201), kiểm tra các trường bắt buộc",
+                            "if (pm.response.code === 201) {",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response has required fields for success\", function () {",
+                            "        pm.expect(responseData).to.be.an('object');",
+                            "        pm.expect(responseData).to.have.property('id');",
+                            "        pm.expect(responseData).to.have.property('first_name');",
+                            "        pm.expect(responseData).to.have.property('last_name');",
+                            "        pm.expect(responseData).to.have.property('email');",
+                            "        pm.expect(responseData).to.have.property('subject');",
+                            "        pm.expect(responseData).to.have.property('message');",
+                            "    });",
+                            "    pm.test(\"ID must be a positive integer\", function () {",
+                            "        pm.expect(responseData.id).to.exist.and.to.be.a('number').and.to.be.above(0);",
+                            "    });",
+                            "    pm.test(\"Email format should be valid\", function () {",
+                            "        pm.expect(responseData.email).to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/);",
+                            "    });",
+                            "    // Lưu message ID để sử dụng cho các test khác",
+                            "    pm.environment.set(\"message_id\", responseData.id);",
+                            "} else if (pm.response.code === 422) {",
+                            "    // Nếu validation error, kiểm tra có trường errors",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response contains validation errors\", function () {",
+                            "        pm.expect(responseData).to.be.an('object').and.to.have.property('errors');",
+                            "    });",
+                            "    pm.test(\"Errors must be an object\", function () {",
+                            "        pm.expect(responseData.errors).to.be.an('object');",
+                            "    });",
+                            "} else if (pm.response.code >= 400) {",
+                            "    // Nếu có lỗi khác, kiểm tra có message hoặc error",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response contains error information\", function () {",
+                            "        pm.expect(responseData).to.be.an('object');",
+                            "        pm.expect(responseData).to.satisfy(function(data) {",
+                            "            return data.hasOwnProperty('message') || data.hasOwnProperty('error');",
+                            "        });",
+                            "    });",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"first_name\": \"{{first_name}}\",\n  \"last_name\": \"{{last_name}}\",\n  \"email\": \"{{email}}\",\n  \"subject\": \"{{subject}}\",\n  \"message\": \"{{message}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/messages",
+                    "host": ["{{base_url}}"],
+                    "path": ["messages"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Contact Messages (Data-driven)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// Kiểm tra status code đúng với expected_status từ Excel",
+                            "pm.test(\"Status code matches expected\", function () {",
+                            "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status_get\")));",
+                            "});",
+                            "",
+                            "// Nếu thành công (200), kiểm tra structure của response",
+                            "if (pm.response.code === 200) {",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response should be an object with data property\", function () {",
+                            "        pm.expect(responseData).to.be.an('object');",
+                            "        pm.expect(responseData).to.have.property('data');",
+                            "    });",
+                            "    pm.test(\"Data should be an array\", function () {",
+                            "        pm.expect(responseData.data).to.be.an('array');",
+                            "    });",
+                            "    // Nếu có messages, kiểm tra structure của từng message",
+                            "    if (responseData.data.length > 0) {",
+                            "        pm.test(\"Each message has required fields\", function () {",
+                            "            responseData.data.forEach(function(message) {",
+                            "                pm.expect(message).to.have.all.keys('id', 'first_name', 'last_name', 'email', 'subject', 'message', 'status', 'created_at', 'updated_at');",
+                            "            });",
+                            "        });",
+                            "    }",
+                            "} else if (pm.response.code === 401) {",
+                            "    // Nếu unauthorized, kiểm tra error message",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response contains unauthorized error\", function () {",
+                            "        pm.expect(responseData).to.be.an('object');",
+                            "        pm.expect(responseData).to.have.property('message');",
+                            "    });",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{auth_token}}",
+                        "description": "Admin token required to view all messages"
+                    }
+                ],
+                "url": {
+                    "raw": "{{base_url}}/messages",
+                    "host": ["{{base_url}}"],
+                    "path": ["messages"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Update Contact Message Status (Data-driven)",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// Kiểm tra status code đúng với expected_status từ Excel",
+                            "pm.test(\"Status code matches expected\", function () {",
+                            "    pm.response.to.have.status(Number(pm.iterationData.get(\"expected_status_update\")));",
+                            "});",
+                            "",
+                            "// Nếu thành công (200), kiểm tra response data",
+                            "if (pm.response.code === 200) {",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response has updated message data\", function () {",
+                            "        pm.expect(responseData).to.be.an('object');",
+                            "        pm.expect(responseData).to.have.property('id');",
+                            "        pm.expect(responseData).to.have.property('status');",
+                            "    });",
+                            "    pm.test(\"Status should match the updated value\", function () {",
+                            "        const expectedStatus = pm.iterationData.get(\"new_status\");",
+                            "        if (expectedStatus) {",
+                            "            pm.expect(responseData.status).to.equal(expectedStatus);",
+                            "        }",
+                            "    });",
+                            "} else if (pm.response.code === 404) {",
+                            "    // Nếu message không tồn tại",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response contains not found error\", function () {",
+                            "        pm.expect(responseData).to.be.an('object');",
+                            "        pm.expect(responseData).to.have.property('message');",
+                            "    });",
+                            "} else if (pm.response.code === 401) {",
+                            "    // Nếu unauthorized",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response contains unauthorized error\", function () {",
+                            "        pm.expect(responseData).to.be.an('object');",
+                            "        pm.expect(responseData).to.have.property('message');",
+                            "    });",
+                            "} else if (pm.response.code === 422) {",
+                            "    // Nếu validation error",
+                            "    const responseData = pm.response.json();",
+                            "    pm.test(\"Response contains validation errors\", function () {",
+                            "        pm.expect(responseData).to.be.an('object').and.to.have.property('errors');",
+                            "    });",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{auth_token}}",
+                        "description": "Admin token required to update message status"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"status\": \"{{new_status}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/messages/{{message_id}}/status",
+                    "host": ["{{base_url}}"],
+                    "path": ["messages", "{{message_id}}", "status"]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "{{base_url}}"
+        },
+        {
+            "key": "auth_token",
+            "value": "{{auth_token}}"
+        },
+        {
+            "key": "message_id",
+            "value": "{{message_id}}"
+        }
+    ]
+}
