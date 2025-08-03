@@ -1,0 +1,80 @@
+{
+    "info": {
+        "_postman_id": "simple-contact-test",
+        "name": "Simple Contact API Test",
+        "description": "Simplified contact API test for debugging",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Send Contact Message Only",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// Đơn giản chỉ log ra để xem response",
+                            "console.log('Response status:', pm.response.code);",
+                            "console.log('Response headers:', pm.response.headers.toJSON());",
+                            "console.log('Response body:', pm.response.text());",
+                            "",
+                            "// Test cơ bản",
+                            "pm.test('Request completed', function () {",
+                            "    pm.expect(pm.response.code).to.be.oneOf([200, 201, 422, 500]);",
+                            "});",
+                            "",
+                            "// Chỉ parse JSON nếu content-type đúng",
+                            "const contentType = pm.response.headers.get('Content-Type');",
+                            "if (contentType && contentType.includes('application/json')) {",
+                            "    try {",
+                            "        const responseData = pm.response.json();",
+                            "        pm.test('Valid JSON response', function () {",
+                            "            pm.expect(responseData).to.be.an('object');",
+                            "        });",
+                            "    } catch (e) {",
+                            "        pm.test('JSON parse error', function () {",
+                            "            pm.expect.fail('Response is not valid JSON: ' + e.message);",
+                            "        });",
+                            "    }",
+                            "} else {",
+                            "    pm.test('Non-JSON response received', function () {",
+                            "        pm.expect(contentType).to.not.include('application/json');",
+                            "    });",
+                            "}"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"first_name\": \"{{first_name}}\",\n  \"last_name\": \"{{last_name}}\",\n  \"email\": \"{{email}}\",\n  \"subject\": \"{{subject}}\",\n  \"message\": \"{{message}}\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/messages",
+                    "host": ["{{base_url}}"],
+                    "path": ["messages"]
+                }
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "{{base_url}}"
+        }
+    ]
+}
