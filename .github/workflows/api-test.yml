@@ -65,9 +65,9 @@ jobs:
       # Bước 7: Chạy kiểm thử Newman cho Contact API
       - name: Run Contact API Newman Tests 🚀
         run: |
-          newman run sprint5-with-bugs/API/tests/api/contact-collection.json \
-            -e sprint5-with-bugs/API/tests/api/contact-environment.json \
-            --iteration-data sprint5-with-bugs/API/tests/api/contact-data.csv \
+          newman run sprint5-with-bugs/API/tests/api/api-testing-the-toolshop.json \
+            -e sprint5-with-bugs/API/tests/api/api-testing-environment.json \
+            --iteration-data sprint5-with-bugs/API/tests/api/api-testing-data.csv \
             --reporters cli,junit,htmlextra \
             --reporter-junit-export newman-contact-report.xml \
             --reporter-htmlextra-export newman-contact-report.html \

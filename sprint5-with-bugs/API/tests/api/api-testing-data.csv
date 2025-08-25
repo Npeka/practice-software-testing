@@ -1,0 +1,30 @@
+api,test_case_id,test_case_name,name,email,subject,message,status,new_status,success,username,password,role,expected_status
+login,Login-Admin,Đăng nhập tài khoản admin,,,,,,,,admin@practicesoftwaretesting.com,welcome01,admin,200
+login,Login-User,Đăng nhập tài khoản user,,,,,,,,customer@practicesoftwaretesting.com,welcome01,user,200
+create_message,Contact-TC001,Gửi liên hệ thành công với tất cả đầu vào hợp lệ,"Khang Nguyen",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,200
+create_message,Contact-TC002,Gửi liên hệ thất bại với First name trống," Nguyen",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC003,Gửi liên hệ thất bại với Last name trống,"Khang ",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC004,Gửi liên hệ thất bại với First name và Last name đều trống," ",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC005,Gửi liên hệ thất bại khi Name = null,,customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC006,Gửi liên hệ thất bại khi Name > 60 ký tự,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC007,Gửi liên hệ thất bại khi Name >= 120 ký tự,"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC008,Gửi liên hệ thất bại khi Email để trống,"Khang Nguyen",,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC009,Gửi liên hệ thất bại khi Email thiếu @,"Khang Nguyen",khanggmail.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC010,Gửi liên hệ thất bại khi Subject để trống,"Khang Nguyen",customer@practicesoftwaretesting.com,,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC011,Gửi liên hệ thất bại khi Subject không hợp lệ,"Khang Nguyen",customer@practicesoftwaretesting.com,InvalidSubject,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC012,Gửi liên hệ thất bại khi Message < 50 ký tự,"Khang Nguyen",customer@practicesoftwaretesting.com,Customer service,"Ngắn quá",NEW,,,,,,422
+create_message,Contact-TC013,Gửi liên hệ thất bại khi Message > 250 ký tự,"Khang Nguyen",customer@practicesoftwaretesting.com,Customer service,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",NEW,,,,,,422
+create_message,Contact-TC014,Gửi liên hệ thất bại khi Email dài hơn 60 ký tự,"Khang Nguyen",aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@mail.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",NEW,,,,,,422
+create_message,Contact-TC015,Gửi liên hệ thất bại khi Status = IN_PROGRESS,"Khang Nguyen",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",IN_PROGRESS,,,,,,422
+create_message,Contact-TC016,Gửi liên hệ thất bại khi Status = RESOLVED,"Khang Nguyen",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",RESOLVED,,,,,,422
+create_message,Contact-TC017,Gửi liên hệ thất bại khi Status không hợp lệ,"Khang Nguyen",customer@practicesoftwaretesting.com,Customer service,"Tôi cần hỗ trợ về đơn hàng ngày 1/1/2025, vui lòng liên hệ sớm nhất",DONE,,,,,,422
+get_messages,Contact-TC018,Lấy danh sách liên hệ thành công khi đăng nhập admin,,,,,,,,,,admin,200
+get_messages,Contact-TC019,Lấy danh sách liên hệ thành công khi đăng nhập user,,,,,,,,,,user,200
+get_messages,Contact-TC020,Lấy danh sách liên hệ khi không đăng nhập,,,,,,,,,,none,401
+update_status_message,Contact-TC021,Cập nhật trạng thái IN_PROGRESS với admin,,,,,,IN_PROGRESS,true,,,admin,200
+update_status_message,Contact-TC022,Cập nhật trạng thái RESOLVED với admin,,,,,,RESOLVED,true,,,admin,200
+update_status_message,Contact-TC023,Không cho phép cập nhật thành NEW khi trạng thái khác NEW,,,,,,NEW,false,,,admin,200
+update_status_message,Contact-TC024,Người dùng thường không được phép cập nhật trạng thái,,,,,,IN_PROGRESS,,,,user,401
+update_status_message,Contact-TC025,Không cho phép cập nhật khi chưa đăng nhập,,,,,,IN_PROGRESS,,,,none,401
+update_status_message,Contact-TC026,Cập nhật trạng thái với message_id không tồn tại,,,,,,IN_PROGRESS,false,,,admin,200
+update_status_message,Contact-TC027,Cập nhật trạng thái thất bại khi status không hợp lệ,,,,,,DONE,false,,,admin,404
