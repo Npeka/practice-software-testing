@@ -8,6 +8,7 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# trigger cicd
 jobs:
   test:
     runs-on: ubuntu-latest
